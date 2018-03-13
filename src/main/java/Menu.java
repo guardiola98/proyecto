@@ -291,21 +291,7 @@ public class Menu {
             }
         }
     }
-    private void listarLlamadas(){
-        entrada = new Scanner(System.in);
-        System.out.println("Introduce NIF/CIF: ");
-        String salida = entrada.nextLine();
-        for (int i = 0; i < listaClientes.size(); i++) {
-            Cliente aux = listaClientes.get(i);
-            if (aux.getNIF() == salida) {
-                LinkedList<Llamada> listaLlamadas = aux.getLlamadas();
-                for (int j = 0; j < listaLlamadas.size(); j++) {
-                    listaLlamadas.get(j).toString();
-                }
-            }
-            break;
-        }
-    }
+
 
 
 }
