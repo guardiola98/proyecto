@@ -2,10 +2,15 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+
 public class Menu {
     private LinkedList<Cliente> listaClientes;
     int codigo=0;
-    public void Menu(){
+
+    public Menu(LinkedList<Cliente> listaClientesT){
+        listaClientes=listaClientesT;
+    }
+    public void showMenu(){
 
         System.out.println(" Menú principal ");
         System.out.println(" 1.- Clientes. ");
@@ -198,12 +203,35 @@ public class Menu {
         System.out.println("Deseas realizar alguna otra opción?s/n");
         String fin=entrada.nextLine();
         if(fin=="s"){
-            Menu();
+            showMenu();
         }
         else{
             System.out.println("Gracias y que pase un buen día.");
         }
 
+    }
+    private int mainMenu()  {
+        System.out.println(" Menú principal ");
+        System.out.println(" 1.- Clientes. ");
+        System.out.println(" 2.- Facturas. ");
+        System.out.println(" 3.- Llamadas. ");
+        System.out.println("-------------");
+
+        System.out.println(" Seleccione una opción: ");
+        Scanner entrada;
+        entrada = new Scanner(System.in);
+        int opcion= entrada.nextInt();
+        return opcion;
+    }
+
+    public static <T extends Fecha> LinkedList <T> listaContenedora(LinkedList lista, LocalDateTime inicio, LocalDateTime fin){
+        LinkedList<T> res =new LinkedList<>();
+        for(Object elementos:lista){
+            if (elementos.getFecha().isBefore(fin) && elementos.getFecha().isAfter(inicio)) {
+                res.add((T) elementos);
+            }
+        }
+        return res;
     }
 
 }

@@ -2,7 +2,7 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 
-public class Cliente{
+public class Cliente implements Fecha{
     private String nombre;
     private String NIF;
     private Tarifa tarifa;
@@ -39,9 +39,11 @@ public class Cliente{
         return direccion;
     }
 
+    @Override
     public LocalDateTime getFecha(){
         return fechaAlta;
     }
+
     public LinkedList<Llamada> getLlamadas(){
         return listaLLamadas;
     }

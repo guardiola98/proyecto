@@ -1,7 +1,7 @@
 import java.time.LocalDateTime;
 
 
-public class Factura {
+public class Factura implements Fecha {
     private Tarifa tarifa;
     private int codigo;
     private double importe;
@@ -23,6 +23,7 @@ public class Factura {
         return codigo;
     }
 
+    @Override
     public LocalDateTime getFecha(){
         return fechaFacturacion;
     }
