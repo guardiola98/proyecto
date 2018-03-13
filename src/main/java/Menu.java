@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.time.format.DateTimeFormatter;
 
 
 
@@ -30,77 +31,34 @@ public class Menu {
                         almacenarCliente();
                         break;
                     case 2:
-                        System.out.println("Introduce el NIF/CIF del cliente a borrar: ");
-                        String nif= entrada.nextLine();
-                        for (int i=0;i<listaClientes.size();i++){
-                            Cliente aux= listaClientes.get(i);
-                            if (aux.getNIF()==nif){
-                                listaClientes.remove(i);
-                                break;
-                            }
-                        }
+                        borrarCliente();
                         break;
                     case 3:
-                        System.out.println("Introduce el NIF/CIF del cliente cuya tarifa quiere ser modificada: ");
-                        nif= entrada.nextLine();
-                        for (int i=0;i<listaClientes.size();i++){
-                            Cliente aux= listaClientes.get(i);
-                            if (aux.getNIF()==nif){
-                                System.out.println("Introduce el importe de la nueva tarifa");
-                                Tarifa tarifa=new Tarifa(entrada.nextDouble());
-                                aux.setTarifa(tarifa);
-                            }
-                        }
+                        cambiarTarifa();
                         break;
                     case 4:
-                        System.out.println("Introduce el NIF/CIF del cliente : ");
-                        nif= entrada.nextLine();
-                        for (int i=0;i<listaClientes.size();i++){
-                            Cliente aux= listaClientes.get(i);
-                            if (aux.getNIF()==nif){
-                                String recuperacion= listaClientes.get(i).toString();
-                            }
-                        }
+                       recuperarDatos();
                         break;
                     case 5:
-                        for (int i=0;i<listaClientes.size();i++){
-                            Cliente aux= listaClientes.get(i);
-                            String recuperacion= aux.toString();
-                            }
-
+                        recuperarLista();
+                        break;
+                    case 6:
+                        recuperarEntreDosFechas();
                         break;
                     }
                     break;
             case 2:
 
-                System.out.println(" Menú Llamadas. Seleccione una opción. ");
-                System.out.println(" 1.- Dar de alta una llamada. ");
-                System.out.println(" 2.- Listar las llamadas de un cliente. ");
-
-                System.out.println("-------------------------------------------");
-                System.out.println(" Seleccione una opción: ");
-
-                opcion=entrada.nextInt();
+                opcion=menuLlamadas();
 
                 switch (opcion) {
                     case 1:
-                        System.out.println("Quien llama? introduce NIF/CIF: ");
-                        String salida = entrada.nextLine();
-                        for (int i = 0; i < listaClientes.size(); i++) {
-                            Cliente aux = listaClientes.get(i);
-                            if (aux.getNIF() == salida) {
-                                System.out.println("Introduce telefono al que se llama: ");
-                                int telefono = entrada.nextInt();
-                                System.out.println("Introduce en minutos la duración de la llamada: ");
-                                double duracion = entrada.nextDouble();
-                                aux.setLlamada(telefono, LocalDateTime.now(), duracion);
-                                break;
-                            }
-                        }
+                        altaLlamada();
                         break;
                     case 2:
+                        entrada = new Scanner(System.in);
                         System.out.println("Introduce NIF/CIF: ");
-                        salida = entrada.nextLine();
+                        String salida = entrada.nextLine();
                         for (int i = 0; i < listaClientes.size(); i++) {
                             Cliente aux = listaClientes.get(i);
                             if (aux.getNIF() == salida) {
@@ -233,7 +191,69 @@ public class Menu {
         }
     }
 
-    public static <T extends Fecha> LinkedList <T> listaContenedora(LinkedList<T> lista, LocalDateTime inicio, LocalDateTime fin){
+    private void borrarCliente(){
+        entrada = new Scanner(System.in);
+        System.out.println("Introduce el NIF/CIF del cliente a borrar: ");
+        String nif= entrada.nextLine();
+        for (int i=0;i<listaClientes.size();i++){
+            Cliente aux= listaClientes.get(i);
+            if (aux.getNIF().equals(nif)){
+                listaClientes.remove(i);
+                break;
+            }
+        }
+    }
+    private void cambiarTarifa(){
+        entrada = new Scanner(System.in);
+        System.out.println("Introduce el NIF/CIF del cliente cuya tarifa quiere ser modificada: ");
+        String nif= entrada.nextLine();
+        for (int i=0;i<listaClientes.size();i++){
+            Cliente aux= listaClientes.get(i);
+            if (aux.getNIF().equals(nif)){
+                System.out.println("Introduce el importe de la nueva tarifa");
+                Tarifa tarifa=new Tarifa(entrada.nextDouble());
+                aux.setTarifa(tarifa);
+            }
+        }
+    }
+    private void recuperarDatos(){
+        entrada = new Scanner(System.in);
+        System.out.println("Introduce el NIF/CIF del cliente : ");
+        String nif= entrada.nextLine();
+        for (int i=0;i<listaClientes.size();i++){
+            Cliente aux= listaClientes.get(i);
+            if (aux.getNIF()==nif){
+                String recuperacion= listaClientes.get(i).toString();
+            }
+        }
+    }
+
+    private void recuperarLista(){
+        for (int i=0;i<listaClientes.size();i++){
+            Cliente aux= listaClientes.get(i);
+            String recuperacion= aux.toString();
+        }
+    }
+    private void recuperarEntreDosFechas(){
+        entrada=new Scanner(System.in);
+        System.out.println("Introduce fecha de inicio con formato año-mes-dia hora:minutos");
+        String str=entrada.next();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime inicio = LocalDateTime.parse(str, formatter);
+        System.out.println("Introduce fecha de inicio con formato año-mes-dia hora:minutos");
+        str=entrada.next();
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime fin = LocalDateTime.parse(str, formatter2);
+
+
+        LinkedList<Cliente> listadef=listaContenedora(listaClientes, inicio, fin);
+        for(int i=0;i<listadef.size();i++){
+            listadef.get(i).toString();
+        }
+    }
+
+
+    private static <T extends Fecha> LinkedList <T> listaContenedora(LinkedList<T> lista, LocalDateTime inicio, LocalDateTime fin){
         LinkedList<T> res =new LinkedList<>();
         for(T elementos:lista){
             if (elementos.getFecha().isBefore(fin) && elementos.getFecha().isAfter(inicio)) {
@@ -243,5 +263,52 @@ public class Menu {
         return res;
     }
 
+    private int menuLlamadas(){
+        entrada = new Scanner(System.in);
+        System.out.println(" Menú Llamadas. Seleccione una opción. ");
+        System.out.println(" 1.- Dar de alta una llamada. ");
+        System.out.println(" 2.- Listar las llamadas de un cliente. ");
+
+        System.out.println("-------------------------------------------");
+        System.out.println(" Seleccione una opción: ");
+
+        int opcion=entrada.nextInt();
+        return opcion;
+    }
+    private void altaLlamada(){
+        entrada = new Scanner(System.in);
+        System.out.println("Quien llama? introduce NIF/CIF: ");
+        String salida = entrada.nextLine();
+        for (int i = 0; i < listaClientes.size(); i++) {
+            Cliente aux = listaClientes.get(i);
+            if (aux.getNIF() == salida) {
+                System.out.println("Introduce telefono al que se llama: ");
+                int telefono = entrada.nextInt();
+                System.out.println("Introduce en minutos la duración de la llamada: ");
+                double duracion = entrada.nextDouble();
+                aux.setLlamada(telefono, LocalDateTime.now(), duracion);
+                break;
+            }
+        }
+    }
+    private void listarLlamadas(){
+        entrada = new Scanner(System.in);
+        System.out.println("Introduce NIF/CIF: ");
+        String salida = entrada.nextLine();
+        for (int i = 0; i < listaClientes.size(); i++) {
+            Cliente aux = listaClientes.get(i);
+            if (aux.getNIF() == salida) {
+                LinkedList<Llamada> listaLlamadas = aux.getLlamadas();
+                for (int j = 0; j < listaLlamadas.size(); j++) {
+                    listaLlamadas.get(j).toString();
+                }
+            }
+            break;
+        }
+    }
+
+
 }
+
+
 
