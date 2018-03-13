@@ -6,12 +6,14 @@ public class Factura {
     private int codigo;
     private double importe;
     private double tiempo;
+    private LocalDateTime fechaFacturacion;
 
     public Factura(Tarifa tar, int cod, LocalDateTime inicio,double minutos){
         tarifa=tar;
         codigo=cod;
         importe=minutos*tar.getTarifa();
         tiempo=minutos;
+        fechaFacturacion=inicio;
     }
 
     public double getImporte(){
@@ -19,5 +21,9 @@ public class Factura {
     }
     public int getCodigo(){
         return codigo;
+    }
+
+    public LocalDateTime getFecha(){
+        return fechaFacturacion;
     }
 }

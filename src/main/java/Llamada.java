@@ -14,5 +14,8 @@ public class Llamada {
     public double getDuracion(){
         return duracion;
     }
+    public LocalDateTime getFecha(){
+        return fecha;
+    }
 
 }
