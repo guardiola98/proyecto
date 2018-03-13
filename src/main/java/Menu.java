@@ -3,68 +3,31 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 
+
 public class Menu {
     private LinkedList<Cliente> listaClientes;
     int codigo=0;
+    Scanner entrada;
 
     public Menu(LinkedList<Cliente> listaClientesT){
+
         listaClientes=listaClientesT;
     }
+
+    public Menu(){
+        listaClientes=new LinkedList<Cliente>();
+    }
+
     public void showMenu(){
-
-        System.out.println(" Menú principal ");
-        System.out.println(" 1.- Clientes. ");
-        System.out.println(" 2.- Facturas. ");
-        System.out.println(" 3.- Llamadas. ");
-        System.out.println("-------------");
-
-        System.out.println(" Seleccione una opción: ");
-        Scanner entrada;
-        entrada = new Scanner(System.in);
-        int opcion= entrada.nextInt();
+        int opcion = mainMenu();
 
         switch (opcion){
             case 1:
-                System.out.println(" Menú clientes. Seleccione una opción. ");
-                System.out.println(" 1.- Dar de alta un nuevo cliente. ");
-                System.out.println(" 2.- Borrar un cliente existente. ");
-                System.out.println(" 3.- Cambiar la tarifa de un cliente. ");
-                System.out.println(" 4.- Recuperar datos a partir del NIF. ");
-                System.out.println(" 5.- Recuperar listado de los clientes. ");
-                System.out.println("--------------------------------------------");
-
-                System.out.println(" Seleccione una opción: ");
-                opcion= entrada.nextInt();
+                opcion=clientsMenu();//llamamos al menu de clientes
 
                 switch (opcion){
                     case 1:
-                        System.out.println("Introduce datos del nuevo cliente: ");
-                        System.out.println("Nombre: ");
-                        String nombre= entrada.nextLine();
-                        System.out.println("NIF/CIF: ");
-                        String codigo= entrada.nextLine();
-                        System.out.println("Introduce tarifa: ");
-                        Tarifa tar= new Tarifa(entrada.nextInt());
-                        System.out.println("Provincia: ");
-                        String provincia= entrada.nextLine();
-                        System.out.println("Nombre poblacion: ");
-                        String poblacion= entrada.nextLine();
-                        System.out.println("Código postal: ");
-                        int codpostal= entrada.nextInt();
-                        Direccion dir=new Direccion(provincia,poblacion,codpostal);
-                        System.out.println(" ¿Es una empresa? s/n ");
-                        String c=entrada.nextLine();
-                        if(c=="s"){
-                            Empresa empresa=new Empresa(nombre,tar,dir,codigo);
-                            listaClientes.add(empresa);
-                        }
-                        else if (c=="n"){
-                            System.out.println("Apellidos: ");
-                            String apellidos= entrada.nextLine();
-                            Particular particular=new Particular(nombre,tar,dir,apellidos,codigo);
-                            listaClientes.add(particular);
-
-                        }
+                        almacenarCliente();
                         break;
                     case 2:
                         System.out.println("Introduce el NIF/CIF del cliente a borrar: ");
@@ -223,10 +186,56 @@ public class Menu {
         int opcion= entrada.nextInt();
         return opcion;
     }
+    private int clientsMenu(){
+        System.out.println(" Menú clientes. Seleccione una opción. ");
+        System.out.println(" 1.- Dar de alta un nuevo cliente. ");
+        System.out.println(" 2.- Borrar un cliente existente. ");
+        System.out.println(" 3.- Cambiar la tarifa de un cliente. ");
+        System.out.println(" 4.- Recuperar datos a partir del NIF. ");
+        System.out.println(" 5.- Recuperar listado de los clientes. ");
+        System.out.println(" 6.- Recuperar listado de los clientes dados de alta entre dos fechas. ");
+        System.out.println("------------------------------------------------");
 
-    public static <T extends Fecha> LinkedList <T> listaContenedora(LinkedList lista, LocalDateTime inicio, LocalDateTime fin){
+        System.out.println(" Seleccione una opción: ");
+        Scanner entrada;
+        entrada = new Scanner(System.in);
+        int opcion=entrada.nextInt();
+        return opcion;
+    }
+
+    private void almacenarCliente(){
+        System.out.println("Introduce datos del nuevo cliente: ");
+        System.out.println("Nombre: ");
+        String nombre= entrada.nextLine();
+        System.out.println("NIF/CIF: ");
+        String codigo= entrada.nextLine();
+        System.out.println("Introduce tarifa: ");
+        Tarifa tar= new Tarifa(entrada.nextInt());
+        System.out.println("Provincia: ");
+        String provincia= entrada.nextLine();
+        System.out.println("Nombre poblacion: ");
+        String poblacion= entrada.nextLine();
+        System.out.println("Código postal: ");
+        int codpostal= entrada.nextInt();
+        Direccion dir=new Direccion(provincia,poblacion,codpostal);
+        System.out.println(" ¿Es una empresa? s/n ");
+        String c=entrada.nextLine();
+        if(c=="s"){
+            Empresa empresa=new Empresa(nombre,tar,dir,codigo);
+            listaClientes.add(empresa);
+        }
+        else if (c=="n"){
+            System.out.println("Apellidos: ");
+            String apellidos= entrada.nextLine();
+            Particular particular=new Particular(nombre,tar,dir,apellidos,codigo);
+            listaClientes.add(particular);
+
+        }
+    }
+
+    public static <T extends Fecha> LinkedList <T> listaContenedora(LinkedList<T> lista, LocalDateTime inicio, LocalDateTime fin){
         LinkedList<T> res =new LinkedList<>();
-        for(Object elementos:lista){
+        for(T elementos:lista){
             if (elementos.getFecha().isBefore(fin) && elementos.getFecha().isAfter(inicio)) {
                 res.add((T) elementos);
             }
@@ -235,3 +244,4 @@ public class Menu {
     }
 
 }
+
