@@ -9,11 +9,13 @@ public class Cliente implements Fecha{
     private Tarifa nueva;
     private Direccion direccion;
     private LocalDateTime fechaAlta;
-    private LinkedList<Factura> listaFacturas;
-    private LinkedList<Llamada> listaLLamadas;
+    public LinkedList<Factura> listaFacturas;
+    public LinkedList<Llamada> listaLLamadas;
     private LinkedList<Llamada> listaLLamadasMes;
 
+    public Cliente(){
 
+    }
 
     public Cliente(String nombre, Tarifa tarifa, Direccion direccion,String NIF) {
         this.nombre = nombre;

@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 
 
-public class Menu {
+public class Menu extends Cliente {
     private LinkedList<Cliente> listaClientes;
     int codigo=0;
     Scanner entrada;
@@ -56,20 +56,16 @@ public class Menu {
                         altaLlamada();
                         break;
                     case 2:
-
+                        listarLlamada();
                         break;
-
-
+                    case 3:
+                        llamadaEntreDosFechas();
+                        break;
                 }
             case 3:
-                System.out.println(" Menú Facturas. Seleccione una opción. ");
-                System.out.println(" 1.- Emitir una factura para un cliente, calculando el importe de la misma en función de las llamadas.");
-                System.out.println(" 2.- Recuperar los datos de una factura a partir de su código. ");
-                System.out.println(" 3.- Recuperar todas las facturas de un cliente. ");
 
-                System.out.println("-------------------------------------------");
-                System.out.println(" Seleccione una opción: ");
-                opcion=entrada.nextInt();
+                opcion=menuFactura();
+
                 switch (opcion){
                     case 1:
                         System.out.println("Introduce NIF/CIF: ");
@@ -122,8 +118,8 @@ public class Menu {
     private int mainMenu()  {
         System.out.println(" Menú principal ");
         System.out.println(" 1.- Clientes. ");
-        System.out.println(" 2.- Facturas. ");
-        System.out.println(" 3.- Llamadas. ");
+        System.out.println(" 2.- Llamadas. ");
+        System.out.println(" 3.- Facturas. ");
         System.out.println("-------------");
 
         System.out.println(" Seleccione una opción: ");
@@ -296,7 +292,34 @@ public class Menu {
             break;
         }
     }
+    private void llamadaEntreDosFechas(){
+        entrada=new Scanner(System.in);
+        System.out.println("Introduce fecha de inicio con formato año-mes-dia hora:minutos");
+        String str=entrada.next();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime inicio = LocalDateTime.parse(str, formatter);
+        System.out.println("Introduce fecha de inicio con formato año-mes-dia hora:minutos");
+        str=entrada.next();
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime fin = LocalDateTime.parse(str, formatter2);
 
+
+        LinkedList<Llamada> listadef=listaContenedora(listaLLamadas, inicio, fin);
+        for(int i=0;i<listadef.size();i++){
+            listadef.get(i).toString();
+        }
+    }
+
+    private int menuFactura(){
+        System.out.println(" Menú Facturas. Seleccione una opción. ");
+        System.out.println(" 1.- Emitir una factura para un cliente, calculando el importe de la misma en función de las llamadas.");
+        System.out.println(" 2.- Recuperar los datos de una factura a partir de su código. ");
+        System.out.println(" 3.- Recuperar todas las facturas de un cliente. ");
+
+        System.out.println("-------------------------------------------");
+        System.out.println(" Seleccione una opción: ");
+        int opcion=entrada.nextInt();
+    }
 
 
 }
