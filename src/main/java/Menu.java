@@ -319,6 +319,7 @@ public class Menu extends Cliente {
         System.out.println("-------------------------------------------");
         System.out.println(" Seleccione una opción: ");
         int opcion=entrada.nextInt();
+        return opcion;
     }
 
 
