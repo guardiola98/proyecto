@@ -315,7 +315,7 @@ public class Menu extends Cliente {
         System.out.println(" 1.- Emitir una factura para un cliente, calculando el importe de la misma en función de las llamadas.");
         System.out.println(" 2.- Recuperar los datos de una factura a partir de su código. ");
         System.out.println(" 3.- Recuperar todas las facturas de un cliente. ");
-
+        System.out.println(" 4.- Recuperar facturas comprendidas entre dos fechas. ");
         System.out.println("-------------------------------------------");
         System.out.println(" Seleccione una opción: ");
         int opcion=entrada.nextInt();
