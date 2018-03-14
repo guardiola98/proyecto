@@ -11,12 +11,12 @@ public class LlamadaTest {
         int llamado= 677015090;
         Llamada primera=new Llamada(llamado,LocalDateTime.now(),19.8);
 
-       assertEquals(primera.getDuracion(),19.8);
+       assertEquals(19.8,primera.getDuracion(),0);
 
 	int llamado2= 678288366;
         Llamada primera2=new Llamada(llamado2,LocalDateTime.now(),9.3);
 
-        assertEquals(primera2.getDuracion(),9.3);
+        assertEquals(9.3,primera2.getDuracion(),0);
 
     }
 }

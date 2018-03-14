@@ -16,7 +16,7 @@ public class DireccionTest {
 
         assertEquals("Alcora",alc.getPoblacion());
         assertEquals("Castellón",alc.getProvincia());
-        assertEquals(12550,alc.getCodPostal());
+        assertEquals(12110,alc.getCodPostal());
 
 
     }

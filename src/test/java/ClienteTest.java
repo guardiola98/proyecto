@@ -13,7 +13,7 @@ public class ClienteTest {
         Cliente c= new Cliente("Jose",tar,dir,"20922218S");
         c.setLlamada(677015090, LocalDateTime.now(),10.5);
 
-        assertEquals(c.getLlamadas().get(0).getDuracion(),10.5);
+        assertEquals(10.5,c.getLlamadas().get(0).getDuracion(),0);
 
     }
     @Test

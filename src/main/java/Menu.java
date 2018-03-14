@@ -56,19 +56,7 @@ public class Menu {
                         altaLlamada();
                         break;
                     case 2:
-                        entrada = new Scanner(System.in);
-                        System.out.println("Introduce NIF/CIF: ");
-                        String salida = entrada.nextLine();
-                        for (int i = 0; i < listaClientes.size(); i++) {
-                            Cliente aux = listaClientes.get(i);
-                            if (aux.getNIF() == salida) {
-                                LinkedList<Llamada> listaLlamadas = aux.getLlamadas();
-                                for (int j = 0; j < listaLlamadas.size(); j++) {
-                                    listaLlamadas.get(j).toString();
-                                }
-                            }
-                            break;
-                        }
+
                         break;
 
 
@@ -268,6 +256,7 @@ public class Menu {
         System.out.println(" Menú Llamadas. Seleccione una opción. ");
         System.out.println(" 1.- Dar de alta una llamada. ");
         System.out.println(" 2.- Listar las llamadas de un cliente. ");
+        System.out.println(" 2.- Listar las llamadas de un cliente comprendidas entre dos fechas. ");
 
         System.out.println("-------------------------------------------");
         System.out.println(" Seleccione una opción: ");
@@ -289,6 +278,22 @@ public class Menu {
                 aux.setLlamada(telefono, LocalDateTime.now(), duracion);
                 break;
             }
+        }
+    }
+
+    private void listarLlamada(){
+        entrada = new Scanner(System.in);
+        System.out.println("Introduce NIF/CIF: ");
+        String salida = entrada.nextLine();
+        for (int i = 0; i < listaClientes.size(); i++) {
+            Cliente aux = listaClientes.get(i);
+            if (aux.getNIF() == salida) {
+                LinkedList<Llamada> lLlamadas = aux.getLlamadas();
+                for (int j = 0; j < lLlamadas.size(); j++) {
+                    lLlamadas.get(j).toString();
+                }
+            }
+            break;
         }
     }
 

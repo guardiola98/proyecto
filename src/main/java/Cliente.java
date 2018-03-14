@@ -13,6 +13,8 @@ public class Cliente implements Fecha{
     private LinkedList<Llamada> listaLLamadas;
     private LinkedList<Llamada> listaLLamadasMes;
 
+
+
     public Cliente(String nombre, Tarifa tarifa, Direccion direccion,String NIF) {
         this.nombre = nombre;
         this.tarifa = tarifa;
