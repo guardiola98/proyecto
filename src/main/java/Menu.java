@@ -2,6 +2,8 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
+import Excepciones.*;
+
 
 
 
@@ -19,7 +21,7 @@ public class Menu extends Cliente {
         listaClientes=new LinkedList<Cliente>();
     }
 
-    public void showMenu(){
+    public void showMenu() throws OptionNoValidExcepction {
         int opcion = mainMenu();
 
         switch (opcion){
@@ -68,38 +70,17 @@ public class Menu extends Cliente {
 
                 switch (opcion){
                     case 1:
-                        System.out.println("Introduce NIF/CIF: ");
-                        String nif=entrada.nextLine();
-                        for (int i = 0; i < listaClientes.size(); i++) {
-                            Cliente aux = listaClientes.get(i);
-                            if (aux.getNIF() == nif) {
-                                listaClientes.get(i).añadirFactura(codigo,LocalDateTime.now());
-                                codigo+=1;
-                                break;
-                            }
-                        }
+                        emitirFactura();
                         break;
                     case 2:
-                        System.out.println("Introduce codigo: ");
-                        int codigo=entrada.nextInt();
-                        for (int i = 0; i < listaClientes.size(); i++) {
-                            Cliente aux = listaClientes.get(i);
-                            for (int j=0; j<aux.getFacturas().size();j++){
-                                if(aux.getFacturas().get(j).getCodigo()==codigo){
-                                    aux.getFacturas().get(j).toString();
-                                }
-                            }
-                        }
+                        recuperarFacturaCod();
                         break;
                     case 3:
-                        for (int i = 0; i < listaClientes.size(); i++) {
-                            Cliente aux = listaClientes.get(i);
-                            for (int j=0; j<aux.getFacturas().size();j++){
-                                    aux.getFacturas().get(j).toString();
-                            }
-                        }
+                        recuperarFacturasCli();
                         break;
-
+                    case 4:
+                        facturasEntreDosFechas();
+                        break;
 
                 }
                 break;
@@ -115,7 +96,7 @@ public class Menu extends Cliente {
         }
 
     }
-    private int mainMenu()  {
+    private int mainMenu() throws OptionNoValidExcepction {
         System.out.println(" Menú principal ");
         System.out.println(" 1.- Clientes. ");
         System.out.println(" 2.- Llamadas. ");
@@ -126,9 +107,10 @@ public class Menu extends Cliente {
         Scanner entrada;
         entrada = new Scanner(System.in);
         int opcion= entrada.nextInt();
+        if(opcion<=0 || opcion>4) throw new OptionNoValidExcepction ();
         return opcion;
     }
-    private int clientsMenu(){
+    private int clientsMenu() throws OptionNoValidExcepction{
         System.out.println(" Menú clientes. Seleccione una opción. ");
         System.out.println(" 1.- Dar de alta un nuevo cliente. ");
         System.out.println(" 2.- Borrar un cliente existente. ");
@@ -142,6 +124,7 @@ public class Menu extends Cliente {
         Scanner entrada;
         entrada = new Scanner(System.in);
         int opcion=entrada.nextInt();
+        if(opcion<=0 || opcion>6) throw new OptionNoValidExcepction ();
         return opcion;
     }
 
@@ -247,17 +230,18 @@ public class Menu extends Cliente {
         return res;
     }
 
-    private int menuLlamadas(){
+    private int menuLlamadas() throws OptionNoValidExcepction{
         entrada = new Scanner(System.in);
         System.out.println(" Menú Llamadas. Seleccione una opción. ");
         System.out.println(" 1.- Dar de alta una llamada. ");
         System.out.println(" 2.- Listar las llamadas de un cliente. ");
-        System.out.println(" 2.- Listar las llamadas de un cliente comprendidas entre dos fechas. ");
+        System.out.println(" 3.- Listar las llamadas de un cliente comprendidas entre dos fechas. ");
 
         System.out.println("-------------------------------------------");
         System.out.println(" Seleccione una opción: ");
 
         int opcion=entrada.nextInt();
+        if(opcion<=0 || opcion>3) throw new OptionNoValidExcepction ();
         return opcion;
     }
     private void altaLlamada(){
@@ -310,7 +294,7 @@ public class Menu extends Cliente {
         }
     }
 
-    private int menuFactura(){
+    private int menuFactura() throws OptionNoValidExcepction{
         System.out.println(" Menú Facturas. Seleccione una opción. ");
         System.out.println(" 1.- Emitir una factura para un cliente, calculando el importe de la misma en función de las llamadas.");
         System.out.println(" 2.- Recuperar los datos de una factura a partir de su código. ");
@@ -319,9 +303,64 @@ public class Menu extends Cliente {
         System.out.println("-------------------------------------------");
         System.out.println(" Seleccione una opción: ");
         int opcion=entrada.nextInt();
+        if(opcion<=0 || opcion>4) throw new OptionNoValidExcepction ();
         return opcion;
     }
 
+
+    private void emitirFactura(){
+        entrada=new Scanner(System.in);
+        System.out.println("Introduce NIF/CIF: ");
+        String nif=entrada.nextLine();
+        for (int i = 0; i < listaClientes.size(); i++) {
+            Cliente aux = listaClientes.get(i);
+            if (aux.getNIF() == nif) {
+                listaClientes.get(i).añadirFactura(codigo,LocalDateTime.now());
+                codigo+=1;
+                break;
+            }
+        }
+    }
+
+    private void recuperarFacturaCod(){
+        entrada=new Scanner(System.in);
+        System.out.println("Introduce codigo: ");
+        int codigo=entrada.nextInt();
+        for (int i = 0; i < listaClientes.size(); i++) {
+            Cliente aux = listaClientes.get(i);
+            for (int j=0; j<aux.getFacturas().size();j++){
+                if(aux.getFacturas().get(j).getCodigo()==codigo){
+                    aux.getFacturas().get(j).toString();
+                }
+            }
+        }
+    }
+
+    private void recuperarFacturasCli(){
+        for (int i = 0; i < listaClientes.size(); i++) {
+            Cliente aux = listaClientes.get(i);
+            for (int j=0; j<aux.getFacturas().size();j++){
+                aux.getFacturas().get(j).toString();
+            }
+        }
+    }
+    public void facturasEntreDosFechas(){
+        entrada=new Scanner(System.in);
+        System.out.println("Introduce fecha de inicio con formato año-mes-dia hora:minutos");
+        String str=entrada.next();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime inicio = LocalDateTime.parse(str, formatter);
+        System.out.println("Introduce fecha de inicio con formato año-mes-dia hora:minutos");
+        str=entrada.next();
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime fin = LocalDateTime.parse(str, formatter2);
+
+
+        LinkedList<Factura> listadef=listaContenedora(listaFacturas, inicio, fin);
+        for(int i=0;i<listadef.size();i++){
+            listadef.get(i).toString();
+        }
+    }
 
 }
 
