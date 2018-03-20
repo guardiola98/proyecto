@@ -21,7 +21,7 @@ public class Menu extends Cliente {
         listaClientes=new LinkedList<Cliente>();
     }
 
-    public void showMenu() throws OptionNoValidExcepction {
+    public void showMenu() throws OptionNoValidExcepction, DniNotValidException {
         int opcion = mainMenu();
 
         switch (opcion){
@@ -96,7 +96,7 @@ public class Menu extends Cliente {
         }
 
     }
-    private int mainMenu() throws OptionNoValidExcepction {
+    private int mainMenu() throws OptionNoValidExcepction{
         System.out.println(" Menú principal ");
         System.out.println(" 1.- Clientes. ");
         System.out.println(" 2.- Llamadas. ");
@@ -128,12 +128,13 @@ public class Menu extends Cliente {
         return opcion;
     }
 
-    private void almacenarCliente(){
+    private void almacenarCliente()throws DniNotValidException{
         System.out.println("Introduce datos del nuevo cliente: ");
         System.out.println("Nombre: ");
         String nombre= entrada.nextLine();
         System.out.println("NIF/CIF: ");
         String codigo= entrada.nextLine();
+        if(codigo.length()!=9) throw new DniNotValidException();
         System.out.println("Introduce tarifa: ");
         Tarifa tar= new Tarifa(entrada.nextInt());
         System.out.println("Provincia: ");
