@@ -14,28 +14,30 @@ import main.*;
 
 public class Menu implements Serializable {
     Compania com= new Compania();
-    private LinkedList<Cliente> listaClientes;
+    private LinkedList<Cliente> listaCli;
     int codigo=0;
     Scanner entrada;
     int contador =0;
 
     public Menu(LinkedList<Cliente> listaClientesT){
 
-        listaClientes=listaClientesT;
+        listaCli =listaClientesT;
     }
 
     public Menu(){
-        listaClientes=new LinkedList<Cliente>();
+        listaCli =new LinkedList<Cliente>();
     }
 
 
 
-    public void showMenu() throws OptionNoValidExcepction, DniNotValidException, IOException, ClassNotFoundException {
+    public void showMenu() throws OptionNoValidExcepction, DniNotValidException, IOException, ClassNotFoundException, DniNoExixstException {
         if(contador == 0) {
-            System.out.println("¿Antes de empezar desea cargar los datos de la aplicación desde un fichero?s/n");
-            String inicio = entrada.nextLine();
+            Scanner entr=new Scanner(System.in);
+            String inicio;
+            System.out.println("¿Antes de empezar desea cargar los datos de la aplicación desde un fichero(fichero.bin)?s/n");
+            inicio = entr.nextLine();
             if (inicio.equals("s")){
-                cargarAgenda();//Falta pedir el nombre del archivo y revisar tanto cargarAgenda como guardarAgenda
+                cargarDatos();
             }
         }
 
@@ -104,21 +106,6 @@ public class Menu implements Serializable {
 
 
         }
-        System.out.println("Deseas realizar alguna otra opción?s/n");
-        String fin=entrada.nextLine();
-        if(fin=="s"){
-            showMenu();
-        }
-        else{
-            System.out.println("Quiere guardar los datos de la aplicación en un fichero?s/n");
-            String guardar=entrada.nextLine();
-            if(guardar.equals("s")){
-                guardarAgenda();
-                System.out.println("Se han guardado los datos de la aplicación en el fichero agenda.bin. Gracias y que pase un buen día.");
-            }else {
-                System.out.println("No se han guardado los datos de la aplicación en ningún fichero. Gracias y que pase un buen día.");
-            }
-        }
 
     }
     private int mainMenu() throws OptionNoValidExcepction{
@@ -154,34 +141,37 @@ public class Menu implements Serializable {
     }
 
     private void almacenarCliente()throws DniNotValidException{
+        Scanner en = new Scanner(System.in);
         System.out.println("Introduce datos del nuevo cliente: ");
         System.out.println("Nombre: ");
-        String nombre= entrada.nextLine();
+        String nombre= en.nextLine();
         System.out.println("NIF/CIF: ");
-        String codigo= entrada.nextLine();
+        String codigo= en.nextLine();
         if(codigo.length()!=9) throw new DniNotValidException();
         System.out.println("Introduce tarifa: ");
-        Tarifa tar= new Tarifa(entrada.nextInt());
+        Tarifa tar= new Tarifa(en.nextInt());
+        en.nextLine();
         System.out.println("Provincia: ");
-        String provincia= entrada.nextLine();
+        String provincia= en.nextLine();
         System.out.println("Nombre poblacion: ");
-        String poblacion= entrada.nextLine();
+        String poblacion= en.nextLine();
         System.out.println("Código postal: ");
-        int codpostal= entrada.nextInt();
+        int codpostal= en.nextInt();
+        en.nextLine();
         Direccion dir=new Direccion(provincia,poblacion,codpostal);
         System.out.println(" ¿Es una empresa? s/n ");
-        String c=entrada.nextLine();
-        if(c=="s"){
+        String c=en.nextLine();
+        if(c.equals("s")){
             Cliente empresa=new Empresa(nombre,tar,dir,codigo);
             com.addCliente(empresa);
-            listaClientes.add(empresa);
+            listaCli.add(empresa);
         }
-        else if (c=="n"){
+        else if (c.equals("n")){
             System.out.println("Apellidos: ");
-            String apellidos= entrada.nextLine();
+            String apellidos= en.nextLine();
             Cliente particular=new Particular(nombre,tar,dir,apellidos,codigo);
             com.addCliente(particular);
-            listaClientes.add(particular);
+            listaCli.add(particular);
 
         }
     }
@@ -190,10 +180,10 @@ public class Menu implements Serializable {
         entrada = new Scanner(System.in);
         System.out.println("Introduce el NIF/CIF del cliente a borrar: ");
         String nif= entrada.nextLine();
-        for (int i=0;i<listaClientes.size();i++){
-            Cliente aux= listaClientes.get(i);
+        for (int i = 0; i< listaCli.size(); i++){
+            Cliente aux= listaCli.get(i);
             if (aux.getNIF().equals(nif)){
-                listaClientes.remove(i);
+                listaCli.remove(i);
                 break;
             }
         }
@@ -202,8 +192,8 @@ public class Menu implements Serializable {
         entrada = new Scanner(System.in);
         System.out.println("Introduce el NIF/CIF del cliente cuya tarifa quiere ser modificada: ");
         String nif= entrada.nextLine();
-        for (int i=0;i<listaClientes.size();i++){
-            Cliente aux= listaClientes.get(i);
+        for (int i = 0; i< listaCli.size(); i++){
+            Cliente aux= listaCli.get(i);
             if (aux.getNIF().equals(nif)){
                 System.out.println("Introduce el importe de la nueva tarifa");
                 Tarifa tarifa=new Tarifa(entrada.nextDouble());
@@ -215,17 +205,17 @@ public class Menu implements Serializable {
         entrada = new Scanner(System.in);
         System.out.println("Introduce el NIF/CIF del cliente : ");
         String nif= entrada.nextLine();
-        for (int i=0;i<listaClientes.size();i++){
-            Cliente aux= listaClientes.get(i);
+        for (int i = 0; i< listaCli.size(); i++){
+            Cliente aux= listaCli.get(i);
             if (aux.getNIF()==nif){
-                String recuperacion= listaClientes.get(i).toString();
+                String recuperacion= listaCli.get(i).toString();
             }
         }
     }
 
     private void recuperarLista(){
-        for (int i=0;i<listaClientes.size();i++){
-            Cliente aux= listaClientes.get(i);
+        for (int i = 0; i< listaCli.size(); i++){
+            Cliente aux= listaCli.get(i);
             String recuperacion= aux.toString();
         }
     }
@@ -241,7 +231,7 @@ public class Menu implements Serializable {
         LocalDateTime fin = LocalDateTime.parse(str, formatter2);
 
 
-        LinkedList<Cliente> listadef=listaContenedora(listaClientes, inicio, fin);
+        LinkedList<Cliente> listadef=listaContenedora(listaCli, inicio, fin);
         for(int i=0;i<listadef.size();i++){
             listadef.get(i).toString();
         }
@@ -276,8 +266,8 @@ public class Menu implements Serializable {
         entrada = new Scanner(System.in);
         System.out.println("Quien llama? introduce NIF/CIF: ");
         String salida = entrada.nextLine();
-        for (int i = 0; i < listaClientes.size(); i++) {
-            Cliente aux = listaClientes.get(i);
+        for (int i = 0; i < listaCli.size(); i++) {
+            Cliente aux = listaCli.get(i);
             if (aux.getNIF() == salida) {
                 System.out.println("Introduce telefono al que se llama: ");
                 int telefono = entrada.nextInt();
@@ -293,8 +283,8 @@ public class Menu implements Serializable {
         entrada = new Scanner(System.in);
         System.out.println("Introduce NIF/CIF: ");
         String salida = entrada.nextLine();
-        for (int i = 0; i < listaClientes.size(); i++) {
-            Cliente aux = listaClientes.get(i);
+        for (int i = 0; i < listaCli.size(); i++) {
+            Cliente aux = listaCli.get(i);
             if (aux.getNIF() == salida) {
                 LinkedList<Llamada> lLlamadas = aux.getLlamadas();
                 for (int j = 0; j < lLlamadas.size(); j++) {
@@ -304,8 +294,10 @@ public class Menu implements Serializable {
             break;
         }
     }
-    private void llamadaEntreDosFechas(){
+    private void llamadaEntreDosFechas() throws DniNoExixstException {
         entrada=new Scanner(System.in);
+        System.out.println("NIF del cliente del que quieres extraer las llamadas");
+        String cli=entrada.next();
         System.out.println("Introduce fecha de inicio con formato año-mes-dia hora:minutos");
         String str=entrada.next();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -314,16 +306,24 @@ public class Menu implements Serializable {
         str=entrada.next();
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime fin = LocalDateTime.parse(str, formatter2);
-
-        for(int j=0;j<listaClientes.size();j++) {
-            LinkedList<Llamada> listadef = listaContenedora(listaClientes.get(j).getLlamadas(), inicio, fin);
-            for (int i = 0; i < listadef.size(); i++) {
-                listadef.get(i).toString();
+        boolean exists=false;
+        for(int j = 0; j< listaCli.size(); j++) {
+            if(listaCli.get(j).getNIF().equals(cli)) {
+                exists=true;
+                LinkedList<Llamada> listadef = listaContenedora(listaCli.get(j).getLlamadas(), inicio, fin);
+                for (int i = 0; i < listadef.size(); i++) {
+                    listadef.get(i).toString();
+                }
+                break;
             }
+        }
+        if(exists==false){
+            throw new DniNoExixstException();
         }
     }
 
     private int menuFactura() throws OptionNoValidExcepction{
+        entrada=new Scanner(System.in);
         System.out.println(" Menú Facturas. Seleccione una opción. ");
         System.out.println(" 1.- Emitir una factura para un cliente, calculando el importe de la misma en función de las llamadas.");
         System.out.println(" 2.- Recuperar los datos de una factura a partir de su código. ");
@@ -341,10 +341,10 @@ public class Menu implements Serializable {
         entrada=new Scanner(System.in);
         System.out.println("Introduce NIF/CIF: ");
         String nif=entrada.nextLine();
-        for (int i = 0; i < listaClientes.size(); i++) {
-            Cliente aux = listaClientes.get(i);
+        for (int i = 0; i < listaCli.size(); i++) {
+            Cliente aux = listaCli.get(i);
             if (aux.getNIF() == nif) {
-                listaClientes.get(i).añadirFactura(codigo,LocalDateTime.now());
+                listaCli.get(i).añadirFactura(codigo,LocalDateTime.now());
                 codigo+=1;
                 break;
             }
@@ -355,8 +355,8 @@ public class Menu implements Serializable {
         entrada=new Scanner(System.in);
         System.out.println("Introduce codigo: ");
         int codigo=entrada.nextInt();
-        for (int i = 0; i < listaClientes.size(); i++) {
-            Cliente aux = listaClientes.get(i);
+        for (int i = 0; i < listaCli.size(); i++) {
+            Cliente aux = listaCli.get(i);
             for (int j=0; j<aux.getFacturas().size();j++){
                 if(aux.getFacturas().get(j).getCodigo()==codigo){
                     aux.getFacturas().get(j).toString();
@@ -366,34 +366,42 @@ public class Menu implements Serializable {
     }
 
     private void recuperarFacturasCli(){
-        for (int i = 0; i < listaClientes.size(); i++) {
-            Cliente aux = listaClientes.get(i);
+        for (int i = 0; i < listaCli.size(); i++) {
+            Cliente aux = listaCli.get(i);
             for (int j=0; j<aux.getFacturas().size();j++){
                 aux.getFacturas().get(j).toString();
             }
         }
     }
-    public void facturasEntreDosFechas(){
+    public void facturasEntreDosFechas() throws DniNoExixstException {
         entrada=new Scanner(System.in);
+        System.out.println("NIF del cliente del que quieres extraer las facturas");
+        String cli=entrada.next();
         System.out.println("Introduce fecha de inicio con formato año-mes-dia hora:minutos");
         String str=entrada.next();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime inicio = LocalDateTime.parse(str, formatter);
-        System.out.println("Introduce fecha de inicio con formato año-mes-dia hora:minutos");
+        System.out.println("Introduce fecha de fin con formato año-mes-dia hora:minutos");
         str=entrada.next();
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime fin = LocalDateTime.parse(str, formatter2);
-
-        for(int j=0;j<listaClientes.size();j++) {
-            LinkedList<Factura> listadef = listaContenedora(listaClientes.get(j).getFacturas(), inicio, fin);
-            for (int i = 0; i < listadef.size(); i++) {
-                listadef.get(i).toString();
+        boolean exists=false;
+        for(int j = 0; j< listaCli.size(); j++) {
+            if(listaCli.get(j).getNIF().equals(cli)) {
+                exists=true;
+                LinkedList<Factura> listadef = listaContenedora(listaCli.get(j).getFacturas(), inicio, fin);
+                for (int i = 0; i < listadef.size(); i++) {
+                    listadef.get(i).toString();
+                }
             }
         }
+        if(exists==false){
+            throw new DniNoExixstException();
+        }
     }
-    public void guardarAgenda() throws IOException{
+    public void guardarDatos() throws IOException{
         try{
-            FileOutputStream fos = new FileOutputStream("agenda.bin");
+            FileOutputStream fos = new FileOutputStream("fichero.bin");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(com);
             oos.close();
@@ -402,11 +410,12 @@ public class Menu implements Serializable {
         }
     }
 
-    public void cargarAgenda() throws IOException, ClassNotFoundException {
+    public void cargarDatos() throws IOException, ClassNotFoundException {
         try {
-            FileInputStream fis = new FileInputStream(" agenda.bin ");
+            FileInputStream fis = new FileInputStream(" fichero.bin ");
             ObjectInputStream ois = new ObjectInputStream(fis);
             com = (Compania) ois.readObject();
+            listaCli=com.listaClientes;
             ois.close();
         }catch (IOException e){
             System.out.println("No hay archivo que leer");

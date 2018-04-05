@@ -10,7 +10,7 @@ import main.entradasalida.*;
 
 public class Compania implements Serializable {
 
-    private static LinkedList<Cliente> listaClientes;
+    public static LinkedList<Cliente> listaClientes;
     public Compania(){
         listaClientes=new LinkedList<Cliente>();
     }
@@ -20,7 +20,7 @@ public class Compania implements Serializable {
         listaClientes.add(c);
     }
 
-    public  LinkedList<Cliente> getClientes(){
+    public static LinkedList<Cliente> getClientes(){
         return listaClientes;
     }
 
