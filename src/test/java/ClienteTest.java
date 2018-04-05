@@ -1,3 +1,6 @@
+import main.Cliente;
+import main.Direccion;
+import main.Tarifa;
 import org.junit.Test;
 
 import java.time.LocalDateTime;

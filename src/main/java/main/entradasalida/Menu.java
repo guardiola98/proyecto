@@ -1,13 +1,15 @@
+package main.entradasalida;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 import Excepciones.*;
+import main.*;
 
 
-
-
-public class Menu extends Cliente {
+public class Menu implements Serializable {
     private LinkedList<Cliente> listaClientes;
     int codigo=0;
     Scanner entrada;
@@ -288,10 +290,11 @@ public class Menu extends Cliente {
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime fin = LocalDateTime.parse(str, formatter2);
 
-
-        LinkedList<Llamada> listadef=listaContenedora(listaLLamadas, inicio, fin);
-        for(int i=0;i<listadef.size();i++){
-            listadef.get(i).toString();
+        for(int j=0;j<listaClientes.size();j++) {
+            LinkedList<Llamada> listadef = listaContenedora(listaClientes.get(j).getLlamadas(), inicio, fin);
+            for (int i = 0; i < listadef.size(); i++) {
+                listadef.get(i).toString();
+            }
         }
     }
 
@@ -356,10 +359,11 @@ public class Menu extends Cliente {
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime fin = LocalDateTime.parse(str, formatter2);
 
-
-        LinkedList<Factura> listadef=listaContenedora(listaFacturas, inicio, fin);
-        for(int i=0;i<listadef.size();i++){
-            listadef.get(i).toString();
+        for(int j=0;j<listaClientes.size();j++) {
+            LinkedList<Factura> listadef = listaContenedora(listaClientes.get(j).getFacturas(), inicio, fin);
+            for (int i = 0; i < listadef.size(); i++) {
+                listadef.get(i).toString();
+            }
         }
     }
 

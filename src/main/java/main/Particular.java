@@ -1,3 +1,5 @@
+package main;
+
 public class Particular extends Cliente{
     private String apellidos;
     public Particular(String nombre, Tarifa tarifa, Direccion direccion,String apellidos, String nif) {

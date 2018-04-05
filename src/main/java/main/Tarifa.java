@@ -1,3 +1,5 @@
+package main;
+
 public class Tarifa {
     private double tarifa;
 

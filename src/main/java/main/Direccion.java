@@ -1,3 +1,5 @@
+package main;
+
 public class Direccion {
     private String provincia;
     private String poblacion;
