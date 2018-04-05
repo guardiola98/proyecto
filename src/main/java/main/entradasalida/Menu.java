@@ -1,5 +1,8 @@
 package main.entradasalida;
-
+import  java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
@@ -10,9 +13,11 @@ import main.*;
 
 
 public class Menu implements Serializable {
+    Compania com= new Compania();
     private LinkedList<Cliente> listaClientes;
     int codigo=0;
     Scanner entrada;
+    int contador =0;
 
     public Menu(LinkedList<Cliente> listaClientesT){
 
@@ -23,9 +28,19 @@ public class Menu implements Serializable {
         listaClientes=new LinkedList<Cliente>();
     }
 
-    public void showMenu() throws OptionNoValidExcepction, DniNotValidException {
-        int opcion = mainMenu();
 
+
+    public void showMenu() throws OptionNoValidExcepction, DniNotValidException, IOException, ClassNotFoundException {
+        if(contador == 0) {
+            System.out.println("¿Antes de empezar desea cargar los datos de la aplicación desde un fichero?s/n");
+            String inicio = entrada.nextLine();
+            if (inicio.equals("s")){
+                cargarAgenda();//Falta pedir el nombre del archivo y revisar tanto cargarAgenda como guardarAgenda
+            }
+        }
+
+        int opcion = mainMenu();
+        contador+=1;
         switch (opcion){
             case 1:
                 opcion=clientsMenu();//llamamos al menu de clientes
@@ -85,7 +100,8 @@ public class Menu implements Serializable {
                         break;
 
                 }
-                break;
+
+
 
         }
         System.out.println("Deseas realizar alguna otra opción?s/n");
@@ -94,7 +110,14 @@ public class Menu implements Serializable {
             showMenu();
         }
         else{
-            System.out.println("Gracias y que pase un buen día.");
+            System.out.println("Quiere guardar los datos de la aplicación en un fichero?s/n");
+            String guardar=entrada.nextLine();
+            if(guardar.equals("s")){
+                guardarAgenda();
+                System.out.println("Se han guardado los datos de la aplicación en el fichero agenda.bin. Gracias y que pase un buen día.");
+            }else {
+                System.out.println("No se han guardado los datos de la aplicación en ningún fichero. Gracias y que pase un buen día.");
+            }
         }
 
     }
@@ -149,13 +172,15 @@ public class Menu implements Serializable {
         System.out.println(" ¿Es una empresa? s/n ");
         String c=entrada.nextLine();
         if(c=="s"){
-            Empresa empresa=new Empresa(nombre,tar,dir,codigo);
+            Cliente empresa=new Empresa(nombre,tar,dir,codigo);
+            com.addCliente(empresa);
             listaClientes.add(empresa);
         }
         else if (c=="n"){
             System.out.println("Apellidos: ");
             String apellidos= entrada.nextLine();
-            Particular particular=new Particular(nombre,tar,dir,apellidos,codigo);
+            Cliente particular=new Particular(nombre,tar,dir,apellidos,codigo);
+            com.addCliente(particular);
             listaClientes.add(particular);
 
         }
@@ -223,7 +248,7 @@ public class Menu implements Serializable {
     }
 
 
-    private static <T extends Fecha> LinkedList <T> listaContenedora(LinkedList<T> lista, LocalDateTime inicio, LocalDateTime fin){
+    public static <T extends Fecha> LinkedList <T> listaContenedora(LinkedList<T> lista, LocalDateTime inicio, LocalDateTime fin){
         LinkedList<T> res =new LinkedList<>();
         for(T elementos:lista){
             if (elementos.getFecha().isBefore(fin) && elementos.getFecha().isAfter(inicio)) {
@@ -364,6 +389,27 @@ public class Menu implements Serializable {
             for (int i = 0; i < listadef.size(); i++) {
                 listadef.get(i).toString();
             }
+        }
+    }
+    public void guardarAgenda() throws IOException{
+        try{
+            FileOutputStream fos = new FileOutputStream("agenda.bin");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(com);
+            oos.close();
+        } catch (IOException e){
+            System.out.println("Nada que guardar");
+        }
+    }
+
+    public void cargarAgenda() throws IOException, ClassNotFoundException {
+        try {
+            FileInputStream fis = new FileInputStream(" agenda.bin ");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            com = (Compania) ois.readObject();
+            ois.close();
+        }catch (IOException e){
+            System.out.println("No hay archivo que leer");
         }
     }
 
