@@ -10,10 +10,9 @@ public class Factura implements Fecha {
     private double tiempo;
     private LocalDateTime fechaFacturacion;
 
-    public Factura(Tarifa tar, int cod, LocalDateTime inicio,double minutos){
-        tarifa=tar;
+    public Factura(double imp,int cod, LocalDateTime inicio,double minutos){
         codigo=cod;
-        importe=minutos*tar.getTarifa();
+        importe=imp;
         tiempo=minutos;
         fechaFacturacion=inicio;
     }

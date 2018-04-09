@@ -3,6 +3,9 @@ package main;
 public class Tarifa {
     private double tarifa;
 
+    public Tarifa(){
+        tarifa=1;
+    }
     public Tarifa(double precio){
         tarifa=precio;
     }
@@ -14,5 +17,9 @@ public class Tarifa {
         String cadena;
         cadena=" "+tarifa;
         return cadena;
+    }
+
+    public double getPrecio(){
+        return tarifa;
     }
 }

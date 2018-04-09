@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Scanner;
 public class main implements Serializable {
     public static void main(String[] args) throws DniNoExixstException, DniNotValidException, OptionNoValidExcepction,
-            PhoneNoValidException, IOException, ClassNotFoundException {
+            IOException, ClassNotFoundException, PhoneNoValidException {
         Menu nuevo= new Menu();
         nuevo.showMenu();
         Scanner entrada=new Scanner(System.in);
@@ -22,7 +22,7 @@ public class main implements Serializable {
             String guardar=entrada.nextLine();
             if(guardar.equals("s")){
                 nuevo.guardarDatos();
-                System.out.println("Se han guardado los datos de la aplicación en el fichero agenda.bin. Gracias y que pase un buen día.");
+                System.out.println("Se han guardado los datos de la aplicación en el fichero fichero.bin. Gracias y que pase un buen día.");
             }else {
                 System.out.println("No se han guardado los datos de la aplicación en ningún fichero. Gracias y que pase un buen día.");
             }

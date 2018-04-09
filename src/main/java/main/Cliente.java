@@ -1,5 +1,8 @@
 package main;
 
+import Excepciones.DniNotValidException;
+import Excepciones.PhoneNoValidException;
+
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
@@ -19,11 +22,15 @@ public class Cliente implements Fecha{
 
     }
 
-    public Cliente(String nombre, Tarifa tarifa, Direccion direccion,String NIF) {
+    public Cliente(String nombre, Tarifa tarifa, Direccion direccion,String NIF) throws DniNotValidException {
         this.nombre = nombre;
         this.tarifa = tarifa;
         this.direccion = direccion;
         this.NIF=NIF;
+        if(NIF.length()!=9) throw new DniNotValidException();listaLLamadasMes=new LinkedList<Llamada>();
+        listaLLamadas=new LinkedList<Llamada>();
+        listaFacturas=new LinkedList<Factura>();
+
     }
     public String getNIF(){
         return NIF;
@@ -49,7 +56,11 @@ public class Cliente implements Fecha{
     public LocalDateTime getFecha(){
         return fechaAlta;
     }
-
+    public void setLlamada(int telefono, LocalDateTime fechaLlamada, double duracion) throws PhoneNoValidException {
+        Llamada auxiliar= new Llamada(tarifa,telefono,fechaLlamada,duracion);
+        listaLLamadas.add(auxiliar);
+        listaLLamadasMes.add(auxiliar);
+    }
     public LinkedList<Llamada> getLlamadas(){
         return listaLLamadas;
     }
@@ -58,21 +69,17 @@ public class Cliente implements Fecha{
     }
 
 
-    public void setLlamada(int telefono, LocalDateTime fechaLlamada, double duracion){
-        Llamada auxiliar= new Llamada(telefono,fechaLlamada,duracion);
-        listaLLamadas.add(auxiliar);
-        listaLLamadasMes.add(auxiliar);
-    }
-    public void añadirFactura(int cod, LocalDateTime actual){
+
+    public void anadirFactura(int cod, LocalDateTime actual){
         double suma=0;
         double importe;
         for(int i=0;i<listaLLamadasMes.size();i++){
-            suma+=listaLLamadasMes.get(i).getDuracion();
+            suma+=listaLLamadasMes.get(i).getTarifa().getPrecio()*listaLLamadasMes.get(i).getDuracion();
             listaLLamadasMes.remove(i);
         }
-        importe=suma*tarifa.getTarifa();
-        listaFacturas.add(new Factura(tarifa,cod,actual,suma));
-        tarifa=nueva;
+        importe=suma;
+        listaFacturas.add(new Factura(importe,cod,actual,suma));
+
     }
     public void setTarifa(Tarifa n){
         nueva=n;

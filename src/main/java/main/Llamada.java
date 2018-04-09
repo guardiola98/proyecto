@@ -1,17 +1,21 @@
 package main;
 
 import java.time.LocalDateTime;
+import Excepciones.*;
 
 
 public class Llamada implements Fecha {
+    private Tarifa tarifa;
     private int telefono;
     private LocalDateTime fecha;
     private double duracion;
 
-    public Llamada(int llamado,LocalDateTime momento, double tarda){
+    public Llamada(Tarifa tar,int llamado,LocalDateTime momento, double tarda) throws PhoneNoValidException {
+        tarifa=tar;
         telefono=llamado;
         fecha=momento;
         duracion=tarda;
+        if(telefono<100000000 || telefono>999999999) throw new PhoneNoValidException();
     }
     public double getDuracion(){
         return duracion;
@@ -21,5 +25,7 @@ public class Llamada implements Fecha {
     public LocalDateTime getFecha(){
         return fecha;
     }
+
+    public Tarifa getTarifa(){return tarifa; }
 
 }

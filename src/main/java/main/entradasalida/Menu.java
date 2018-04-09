@@ -30,7 +30,7 @@ public class Menu implements Serializable {
 
 
 
-    public void showMenu() throws OptionNoValidExcepction, DniNotValidException, IOException, ClassNotFoundException, DniNoExixstException {
+    public void showMenu() throws OptionNoValidExcepction, DniNotValidException, IOException, ClassNotFoundException, DniNoExixstException, PhoneNoValidException {
         if(contador == 0) {
             Scanner entr=new Scanner(System.in);
             String inicio;
@@ -207,7 +207,7 @@ public class Menu implements Serializable {
         String nif= entrada.nextLine();
         for (int i = 0; i< listaCli.size(); i++){
             Cliente aux= listaCli.get(i);
-            if (aux.getNIF()==nif){
+            if (aux.getNIF().equals(nif)){
                 String recuperacion= listaCli.get(i).toString();
             }
         }
@@ -262,7 +262,7 @@ public class Menu implements Serializable {
         if(opcion<=0 || opcion>3) throw new OptionNoValidExcepction ();
         return opcion;
     }
-    private void altaLlamada(){
+    private void altaLlamada() throws PhoneNoValidException {
         entrada = new Scanner(System.in);
         System.out.println("Quien llama? introduce NIF/CIF: ");
         String salida = entrada.nextLine();
@@ -343,8 +343,8 @@ public class Menu implements Serializable {
         String nif=entrada.nextLine();
         for (int i = 0; i < listaCli.size(); i++) {
             Cliente aux = listaCli.get(i);
-            if (aux.getNIF() == nif) {
-                listaCli.get(i).añadirFactura(codigo,LocalDateTime.now());
+            if (aux.getNIF().equals(nif)) {
+                listaCli.get(i).anadirFactura(codigo,LocalDateTime.now());
                 codigo+=1;
                 break;
             }

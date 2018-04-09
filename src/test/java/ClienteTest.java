@@ -1,33 +1,22 @@
-import main.Cliente;
-import main.Direccion;
-import main.Tarifa;
+import Excepciones.*;
 import org.junit.Test;
-
+import main.*;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 
 import static org.junit.Assert.assertEquals;
 
 
 public class ClienteTest {
+
     @Test
-    public void setLlamadaTest(){
+    public void añadirClienteTest() throws DniNotValidException, PhoneNoValidException{
         Tarifa tar= new Tarifa(4);
-        Direccion dir=new Direccion("Castellón","Almazora", 12550);
-        Cliente c= new Cliente("Jose",tar,dir,"20922218S");
-        c.setLlamada(677015090, LocalDateTime.now(),10.5);
-
-        assertEquals(10.5,c.getLlamadas().get(0).getDuracion(),0);
-
-    }
-    @Test
-    public void añadirFacturaTest(){
-        Tarifa tar= new Tarifa(4);
-        Direccion dir=new Direccion("Castellón","Almazora", 12550);
-        Cliente c= new Cliente("Jose",tar,dir,"20922218S");
-        c.setLlamada(677015090, LocalDateTime.now(),10.5);
-        c.añadirFactura(1,LocalDateTime.now());
-
-        assertEquals(c.getFacturas().get(0).getCodigo(),1);
+        Direccion dir=new Direccion("Castellón","Alcora", 12110);
+        Cliente c= new Cliente("Josep",tar,dir,"53785377S");
+        LinkedList<Cliente> listaClientes= new LinkedList<Cliente>();
+        if(listaClientes.isEmpty())    listaClientes.add(c);
+        assertEquals(1,listaClientes.size());
     }
 
 }
