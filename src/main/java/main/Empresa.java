@@ -4,7 +4,9 @@ package main;
 import Excepciones.DniNotValidException;
 import main.tarifa.Tarifa;
 
-public class Empresa extends Cliente{
+import java.io.Serializable;
+
+public class Empresa extends Cliente implements Serializable, Clientes{
 
     public Empresa(String nombre, Tarifa tarifa, Direccion direccion, String CIF) throws DniNotValidException {
         super(nombre, tarifa, direccion,CIF);

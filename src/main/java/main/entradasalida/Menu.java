@@ -12,6 +12,7 @@ import Excepciones.*;
 import main.*;
 import main.tarifa.Tarifa;
 import main.tarifa.*;
+import main.Compania;
 
 
 public class Menu implements Serializable {
@@ -240,7 +241,7 @@ public class Menu implements Serializable {
     }
 
 
-    public static <T extends Fecha> LinkedList <T> listaContenedora(LinkedList<T> lista, LocalDateTime inicio, LocalDateTime fin){
+    public static <T extends Transaction> LinkedList <T> listaContenedora(LinkedList<T> lista, LocalDateTime inicio, LocalDateTime fin){
         LinkedList<T> res =new LinkedList<>();
         for(T elementos:lista){
             if (elementos.getFecha().isBefore(fin) && elementos.getFecha().isAfter(inicio)) {
@@ -377,28 +378,20 @@ public class Menu implements Serializable {
     }
     public void facturasEntreDosFechas() throws DniNoExixstException {
         entrada=new Scanner(System.in);
-        System.out.println("NIF del cliente del que quieres extraer las facturas");
-        String cli=entrada.next();
         System.out.println("Introduce fecha de inicio con formato año-mes-dia hora:minutos");
         String str=entrada.next();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime inicio = LocalDateTime.parse(str, formatter);
-        System.out.println("Introduce fecha de fin con formato año-mes-dia hora:minutos");
+        System.out.println("Introduce fecha de inicio con formato año-mes-dia hora:minutos");
         str=entrada.next();
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime fin = LocalDateTime.parse(str, formatter2);
-        boolean exists=false;
-        for(int j = 0; j< listaCli.size(); j++) {
-            if(listaCli.get(j).getNIF().equals(cli)) {
-                exists=true;
-                LinkedList<Factura> listadef = listaContenedora(listaCli.get(j).getFacturas(), inicio, fin);
-                for (int i = 0; i < listadef.size(); i++) {
-                    listadef.get(i).toString();
-                }
+
+        for(int j=0;j<listaCli.size();j++) {
+            LinkedList<Factura> listadef = listaContenedora(listaCli.get(j).getFacturas(), inicio, fin);
+            for (int i = 0; i < listadef.size(); i++) {
+                listadef.get(i).toString();
             }
-        }
-        if(exists==false){
-            throw new DniNoExixstException();
         }
     }
     public void guardarDatos() throws IOException{
