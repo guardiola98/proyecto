@@ -11,7 +11,7 @@ public abstract class Tarifa implements Serializable {
         public double getPrecio(){
             return precio;
         }
-        //    public abstract String toString();
+
         public abstract double precioLlamada(Llamada llamada);
     }
 
