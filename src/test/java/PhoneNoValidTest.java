@@ -1,9 +1,6 @@
-import Excepciones.DniNotValidException;
 import Excepciones.PhoneNoValidException;
-import main.Cliente;
-import main.Direccion;
 import main.Llamada;
-import main.Tarifa;
+import main.tarifa.Tarifa;
 import java.time.LocalDateTime;
 import org.junit.Test;
 public class PhoneNoValidTest {

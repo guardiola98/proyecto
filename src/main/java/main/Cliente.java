@@ -2,6 +2,7 @@ package main;
 
 import Excepciones.DniNotValidException;
 import Excepciones.PhoneNoValidException;
+import main.tarifa.Tarifa;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;

@@ -1,5 +1,7 @@
 package main;
 
+import main.tarifa.Tarifa;
+
 import java.time.LocalDateTime;
 
 

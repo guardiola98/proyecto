@@ -10,6 +10,8 @@ import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 import Excepciones.*;
 import main.*;
+import main.tarifa.Tarifa;
+import main.tarifa.*;
 
 
 public class Menu implements Serializable {
@@ -149,7 +151,7 @@ public class Menu implements Serializable {
         String codigo= en.nextLine();
         if(codigo.length()!=9) throw new DniNotValidException();
         System.out.println("Introduce tarifa: ");
-        Tarifa tar= new Tarifa(en.nextInt());
+        Tarifa tar= new Basica();
         en.nextLine();
         System.out.println("Provincia: ");
         String provincia= en.nextLine();
@@ -196,7 +198,7 @@ public class Menu implements Serializable {
             Cliente aux= listaCli.get(i);
             if (aux.getNIF().equals(nif)){
                 System.out.println("Introduce el importe de la nueva tarifa");
-                Tarifa tarifa=new Tarifa(entrada.nextDouble());
+                Tarifa tarifa=new Basica();
                 aux.setTarifa(tarifa);
             }
         }

@@ -1,7 +1,7 @@
 import Excepciones.DniNotValidException;
 import main.Cliente;
 import main.Direccion;
-import main.Tarifa;
+import main.tarifa.Tarifa;
 import org.junit.Test;
 public class DniNotValidTest {
     @Test(expected = DniNotValidException.class)
