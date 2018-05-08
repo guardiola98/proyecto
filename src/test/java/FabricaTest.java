@@ -13,7 +13,7 @@ public class FabricaTest {
         assertEquals(true,cliente.isEmpresa());
 
 
-        cliente=fabrica.getNuevoParticular("Dani",new Basica(),new Direccion("Castellón","Alcora",12110),"Bagán","20909456H");
+        cliente=fabrica.getNuevoParticular("Josep",new Basica(),new Direccion("Castellón","Alcora",12110),"Guardiola","53785377S");
         assertEquals(false,cliente.isEmpresa());
 
     }

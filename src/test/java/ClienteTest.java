@@ -13,8 +13,8 @@ public class ClienteTest {
     @Test
     public void setLlamadaTest() throws DniNotValidException,  PhoneNoValidException {
         Tarifa tar= new Basica();
-        Direccion dir=new Direccion("Castellón","Almazora", 12550);
-        Cliente c= new Particular("Jose",tar,dir,"Peidró","20922218S");
+        Direccion dir=new Direccion("Castellón","Alcora", 12550);
+        Cliente c= new Particular("Josep",tar,dir,"Guardiola","53785377S");
         c.setLlamada(677015090, LocalDateTime.now(),10.5);
 
         assertEquals(c.getLlamadas().size(),1);
@@ -23,8 +23,8 @@ public class ClienteTest {
     @Test
     public void añadirFacturaTest() throws DniNotValidException, PhoneNoValidException{
         Tarifa tar= new Basica();
-        Direccion dir=new Direccion("Castellón","Almazora", 12550);
-        Cliente c= new Particular("Jose",tar,dir,"Peidró","20922218S");
+        Direccion dir=new Direccion("Castellón","Alcora", 12550);
+        Cliente c= new Particular("Josep",tar,dir,"Guaridola","53785377S");
         c.setLlamada(677015090, LocalDateTime.now(),10.5);
         c.anadirFactura(1,LocalDateTime.now());
 
@@ -33,8 +33,8 @@ public class ClienteTest {
     @Test
     public void añadirClienteTest() throws DniNotValidException,  PhoneNoValidException{
         Tarifa tar= new Basica();
-        Direccion dir=new Direccion("Castellón","Almazora", 12550);
-        Cliente c= new Particular("Jose",tar,dir,"Peidró","20922218S");
+        Direccion dir=new Direccion("Castellón","Alcora", 12550);
+        Cliente c= new Particular("Josep",tar,dir,"Guardiola","53785377S");
         LinkedList<Cliente> listaClientes= new LinkedList<Cliente>();
         if(listaClientes.isEmpty())    listaClientes.add(c);
         assertEquals(1,listaClientes.size());
