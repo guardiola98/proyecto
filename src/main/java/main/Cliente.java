@@ -21,12 +21,12 @@ public abstract class Cliente extends DniNotValidException implements Transactio
     private Compania gestor;
 
 
-    public Cliente(String nombre, Tarifa tarifa, Direccion direccion,String NIF) throws  DniNotValidException {
+    public Cliente(String nombre, Tarifa tarifa, Direccion direccion,String NIF,LocalDateTime fecha) throws DniNotValidException{
         this.nombre = nombre;
         this.tarifa = tarifa;
         this.direccion = direccion;
         this.NIF=NIF;
-        this.fechaAlta=LocalDateTime.now();
+        this.fechaAlta=fecha;
         if(NIF.length()!=9) throw new DniNotValidException();
         listaLLamadasMes=new LinkedList<Llamada>();
         listaLLamadas=new LinkedList<Llamada>();
