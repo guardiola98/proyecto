@@ -144,38 +144,39 @@ public class Menu implements Serializable {
     }
 
     private void almacenarCliente()throws DniNotValidException{
-        Scanner en = new Scanner(System.in);
+        Fabrica fabrica= new FabricaCliente();
+        entrada = new Scanner(System.in);
         System.out.println("Introduce datos del nuevo cliente: ");
         System.out.println("Nombre: ");
-        String nombre= en.nextLine();
+        String nombre= entrada.next();
         System.out.println("NIF/CIF: ");
-        String codigo= en.nextLine();
+        String codigo= entrada.next();
         if(codigo.length()!=9) throw new DniNotValidException();
-        System.out.println("Introduce tarifa: ");
         Tarifa tar= new Basica();
-        en.nextLine();
         System.out.println("Provincia: ");
-        String provincia= en.nextLine();
+        String provincia= entrada.next();
         System.out.println("Nombre poblacion: ");
-        String poblacion= en.nextLine();
+        String poblacion= entrada.next();
         System.out.println("Código postal: ");
-        int codpostal= en.nextInt();
-        en.nextLine();
+        int codpostal= entrada.nextInt();
         Direccion dir=new Direccion(provincia,poblacion,codpostal);
         System.out.println(" ¿Es una empresa? s/n ");
-        String c=en.nextLine();
+        String c=entrada.next();
         if(c.equals("s")){
-            Cliente empresa=new Empresa(nombre,tar,dir,codigo);
-            com.addCliente(empresa);
+            if(listaCli.isEmpty()) {
+                if (listaCli.contains(fabrica.getNuevaEmpresa(nombre, tar, dir, codigo,LocalDateTime.now())));
+            }
+            Cliente empresa = fabrica.getNuevaEmpresa(nombre, tar, dir, codigo,LocalDateTime.now());
+            Compania.addCliente(empresa);
             listaCli.add(empresa);
+
         }
         else if (c.equals("n")){
             System.out.println("Apellidos: ");
-            String apellidos= en.nextLine();
-            Cliente particular=new Particular(nombre,tar,dir,apellidos,codigo);
-            com.addCliente(particular);
+            String apellidos= entrada.next();
+            Cliente particular=fabrica.getNuevoParticular(nombre,tar,dir,apellidos,codigo,LocalDateTime.now());
+            Compania.addCliente(particular);
             listaCli.add(particular);
-
         }
     }
 
