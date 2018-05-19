@@ -1,9 +1,5 @@
 package main.entradasalida;
 import  java.io.*;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -34,15 +30,7 @@ public class Menu implements Serializable {
 
 
     public void showMenu() throws OptionNoValidExcepction, DniNotValidException, IOException, ClassNotFoundException, DniNoExixstException, PhoneNoValidException {
-        if(contador == 0) {
-            Scanner entr=new Scanner(System.in);
-            String inicio;
-            System.out.println("¿Antes de empezar desea cargar los datos de la aplicación desde un fichero(fichero.bin)?s/n");
-            inicio = entr.nextLine();
-            if (inicio.equals("s")){
-                cargarDatos();
-            }
-        }
+
 
         int opcion = mainMenu();
         contador+=1;
@@ -105,6 +93,12 @@ public class Menu implements Serializable {
                         break;
 
                 }
+            case 4:
+                guardarAgenda();
+                break;
+
+            case 5:
+                cargarAgenda();
 
 
 
@@ -116,6 +110,10 @@ public class Menu implements Serializable {
         System.out.println(" 1.- Clientes. ");
         System.out.println(" 2.- Llamadas. ");
         System.out.println(" 3.- Facturas. ");
+        System.out.println(" 4.- Guardar datos ");
+        System.out.println(" 5.- Cargar datos ");
+
+
         System.out.println("-------------");
 
         System.out.println(" Seleccione una opción: ");
@@ -163,9 +161,6 @@ public class Menu implements Serializable {
         System.out.println(" ¿Es una empresa? s/n ");
         String c=entrada.next();
         if(c.equals("s")){
-            if(listaCli.isEmpty()) {
-                if (listaCli.contains(fabrica.getNuevaEmpresa(nombre, tar, dir, codigo,LocalDateTime.now())));
-            }
             Cliente empresa = fabrica.getNuevaEmpresa(nombre, tar, dir, codigo,LocalDateTime.now());
             Compania.addCliente(empresa);
             listaCli.add(empresa);
@@ -183,8 +178,8 @@ public class Menu implements Serializable {
     private void borrarCliente(){
         entrada = new Scanner(System.in);
         System.out.println("Introduce el NIF/CIF del cliente a borrar: ");
-        String nif= entrada.nextLine();
-        for (int i = 0; i< listaCli.size(); i++){
+        String nif= entrada.next();
+        for (int i=0;i<listaCli.size();i++){
             Cliente aux= listaCli.get(i);
             if (aux.getNIF().equals(nif)){
                 listaCli.remove(i);
@@ -192,7 +187,7 @@ public class Menu implements Serializable {
             }
         }
     }
-    private void cambiarTarifa(){
+    private void cambiarTarifa() throws DniNoExixstException{
         entrada = new Scanner(System.in);
         System.out.println("Introduce el NIF/CIF del cliente cuya tarifa quiere ser modificada: ");
         String nif= entrada.nextLine();
@@ -203,17 +198,20 @@ public class Menu implements Serializable {
                 Tarifa tarifa=new Basica();
                 aux.setTarifa(tarifa);
             }
+            if(i==listaCli.size()-1) throw new DniNoExixstException();
         }
     }
-    private void recuperarDatos(){
+    private void recuperarDatos() throws DniNoExixstException{
         entrada = new Scanner(System.in);
         System.out.println("Introduce el NIF/CIF del cliente : ");
-        String nif= entrada.nextLine();
+        String nif= entrada.next();
         for (int i = 0; i< listaCli.size(); i++){
             Cliente aux= listaCli.get(i);
             if (aux.getNIF().equals(nif)){
                 String recuperacion= listaCli.get(i).toString();
             }
+            if(i==listaCli.size()-1) throw new DniNoExixstException();
+
         }
     }
 
@@ -283,13 +281,14 @@ public class Menu implements Serializable {
         }
     }
 
-    private void listarLlamada(){
+    private void listarLlamada() throws DniNotValidException {
         entrada = new Scanner(System.in);
         System.out.println("Introduce NIF/CIF: ");
         String salida = entrada.nextLine();
+        if(salida.length()!=9) throw new DniNotValidException();
         for (int i = 0; i < listaCli.size(); i++) {
             Cliente aux = listaCli.get(i);
-            if (aux.getNIF() == salida) {
+            if (aux.getNIF().equals(salida)) {
                 LinkedList<Llamada> lLlamadas = aux.getLlamadas();
                 for (int j = 0; j < lLlamadas.size(); j++) {
                     lLlamadas.get(j).toString();
@@ -416,6 +415,30 @@ public class Menu implements Serializable {
         }catch (IOException e){
             System.out.println("No hay archivo que leer");
         }
+    }
+    public void guardarAgenda() throws IOException{
+        try{
+            FileOutputStream fos = new FileOutputStream("agenda.bin");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(listaCli);
+            oos.close();
+        }catch (IOException e){
+            System.out.println("Nada que guardar");
+        }
+    }
+    public void cargarAgenda() throws IOException, ClassNotFoundException{
+
+        try {
+            FileInputStream fis = new FileInputStream(" agenda.bin ");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            listaCli = (LinkedList<Cliente>) ois.readObject();
+            ois.close();
+            Compania.cargaFacturas(listaCli);
+            Compania.cargaLlamadas(listaCli);
+        }catch (IOException e){
+            System.out.println("No hay archivo que leer");
+        }
+
     }
 
 }

@@ -4,6 +4,7 @@ import main.tarifa.Tarifa;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 
 
 public class Factura implements Transaction, Serializable {
