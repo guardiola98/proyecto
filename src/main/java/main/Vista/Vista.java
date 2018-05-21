@@ -3,11 +3,10 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import Excepciones.*;
-import main.IModelo;
-import main.IControlador;
+import Interfaces.IModelo;
+import Interfaces.IControlador;
 
-import main.IVista;
-import main.Llamada;
+import Interfaces.IVista;
 import main.Direccion;
 import main.tarifa.TipoTarifa;
 
@@ -17,7 +16,6 @@ import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedList;
 
 public class Vista implements IVista, Serializable {
     private IControlador controlador;

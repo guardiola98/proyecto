@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 import Excepciones.*;
+import Interfaces.Fabrica;
+import Interfaces.Transaction;
 import main.*;
 import main.tarifa.Tarifa;
 import main.tarifa.*;

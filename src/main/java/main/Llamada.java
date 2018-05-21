@@ -2,6 +2,7 @@ package main;
 
 import java.time.LocalDateTime;
 import Excepciones.*;
+import Interfaces.Transaction;
 import main.tarifa.Tarifa;
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package main;
+package Interfaces;
 
 import Excepciones.DniNotValidException;
 import main.Cliente;

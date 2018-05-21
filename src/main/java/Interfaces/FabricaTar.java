@@ -1,4 +1,4 @@
-package main.tarifa;
+package Interfaces;
 import main.tarifa.Tarifa;
 import main.tarifa.TipoTarifa;
 public interface FabricaTar {

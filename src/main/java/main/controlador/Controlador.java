@@ -4,10 +4,9 @@ package main.controlador;
 import Excepciones.DniNoExixstException;
 import Excepciones.DniNotValidException;
 import Excepciones.PhoneNoValidException;
-import main.IModelo;
-import main.IControlador;
-import main.IVista;
-import main.Vista.Vista;
+import Interfaces.IModelo;
+import Interfaces.IControlador;
+import Interfaces.IVista;
 import main.Direccion;
 import main.modelo.Modelo;
 

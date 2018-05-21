@@ -1,10 +1,11 @@
 package main;
 
 import Excepciones.DniNotValidException;
+import Interfaces.Clientes;
 import main.tarifa.Tarifa;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-public class Particular extends Cliente implements Serializable, Clientes{
+public class Particular extends Cliente implements Serializable, Clientes {
     private String apellidos;
     public Particular(String nombre, Tarifa tarifa, Direccion direccion, String apellidos, String nif, LocalDateTime fecha) throws DniNotValidException {
         super(nombre, tarifa, direccion,nif,fecha);

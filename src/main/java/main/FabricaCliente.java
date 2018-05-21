@@ -1,7 +1,7 @@
 package main;
 
 import Excepciones.DniNotValidException;
-import main.Fabrica;
+import Interfaces.Fabrica;
 import main.tarifa.Tarifa;
 import java.time.LocalDateTime;
 

@@ -1,10 +1,9 @@
 package main;
 
-import main.tarifa.Tarifa;
+import Interfaces.Transaction;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.LinkedList;
 
 
 public class Factura implements Transaction, Serializable {

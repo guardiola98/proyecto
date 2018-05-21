@@ -2,6 +2,7 @@ package main;
 
 import Excepciones.DniNotValidException;
 import Excepciones.PhoneNoValidException;
+import Interfaces.Transaction;
 import main.tarifa.Tarifa;
 
 import java.io.Serializable;

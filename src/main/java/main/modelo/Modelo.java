@@ -7,14 +7,12 @@ import java.util.LinkedList;
 import Excepciones.DniNoExixstException;
 import Excepciones.DniNotValidException;
 import Excepciones.PhoneNoValidException;
-import main.tarifa.FabricaTar;
-import main.IModelo;
-import main.IVista;
-import main.Llamada;
+import Interfaces.FabricaTar;
+import Interfaces.IModelo;
+import Interfaces.IVista;
 import main.Vista.Vista;
 import main.*;
 import main.Compania;
-import main.tarifa.Basica;
 import main.tarifa.FabricaTarifas;
 import main.tarifa.TipoTarifa;
 

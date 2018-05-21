@@ -1,8 +1,7 @@
 package main.tarifa;
 
-import main.tarifa.FabricaTar;
+import Interfaces.FabricaTar;
 
-import java.io.Serializable;
 public class FabricaTarifas implements FabricaTar {
     @Override
     public Tarifa getNuevaTarifa(TipoTarifa tipo) {
