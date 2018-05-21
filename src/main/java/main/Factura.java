@@ -31,6 +31,7 @@ public class Factura implements Transaction, Serializable {
         return fechaFacturacion;
     }
     public String toString(){
+
         String cadena=" Factura de código: "+codigo+", lo cual hace un importe de "+importe+"y con fecha de facturación: "+fechaFacturacion.toString();
         System.out.println(cadena);
         return cadena;

@@ -208,7 +208,7 @@ public class Menu implements Serializable {
         for (int i = 0; i< listaCli.size(); i++){
             Cliente aux= listaCli.get(i);
             if (aux.getNIF().equals(nif)){
-                String recuperacion= listaCli.get(i).toString();
+                listaCli.get(i).toString();
             }
             if(i==listaCli.size()-1) throw new DniNoExixstException();
 
@@ -218,7 +218,7 @@ public class Menu implements Serializable {
     private void recuperarLista(){
         for (int i = 0; i< listaCli.size(); i++){
             Cliente aux= listaCli.get(i);
-            String recuperacion= aux.toString();
+            aux.toString();
         }
     }
     private void recuperarEntreDosFechas(){
