@@ -43,13 +43,13 @@ public class Controlador implements IControlador, Serializable{
     }
 
     @Override
-    public void añadirParticular(String nombre, String apellidos, String DNI, Direccion direccion, LocalDateTime fechaAlta) throws DniNotValidException {
+    public void anadirParticular(String nombre, String apellidos, String DNI, Direccion direccion, LocalDateTime fechaAlta) throws DniNotValidException {
         modelo.anadeParticular(nombre,apellidos,DNI,direccion,fechaAlta);
     }
 
     @Override
-    public void añadirEmpresa(String nombre, String dni, Direccion direccion, LocalDateTime now) throws DniNotValidException {
-        modelo.añadeEmpresa(nombre,dni,direccion,now);
+    public void anadirEmpresa(String nombre, String dni, Direccion direccion, LocalDateTime now) throws DniNotValidException {
+        modelo.anadeEmpresa(nombre,dni,direccion,now);
     }
 
     @Override
@@ -88,8 +88,8 @@ public class Controlador implements IControlador, Serializable{
     }
 
     @Override
-    public void añadirFactura(String dniFac) {
-        modelo.añadirFactura(dniFac);
+    public void anadirFactura(String dniFac) {
+        modelo.anadirFactura(dniFac);
     }
 
     @Override

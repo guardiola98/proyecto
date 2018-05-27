@@ -12,7 +12,7 @@ public interface IModelo {
     void cargaDatos() throws ClassNotFoundException;
     void guardaDatos();
     void anadeParticular(String nombre, String apellidos, String dni, Direccion direccion, LocalDateTime fechaAlta) throws DniNotValidException;
-    void añadeEmpresa(String nombre, String dni, Direccion direccion, LocalDateTime now) throws DniNotValidException;
+    void anadeEmpresa(String nombre, String dni, Direccion direccion, LocalDateTime now) throws DniNotValidException;
     void borrarCliente(String dni) throws DniNoExixstException;
     void recuperaCliente(String dni) throws DniNoExixstException;
     void listarClientes() throws DniNoExixstException;
@@ -20,7 +20,7 @@ public interface IModelo {
     void addLlamada(String dniFac, int telefonoDestino, double duracion) throws PhoneNoValidException;
     void getLlamadas(String dnitLlam);
     void listarLlamadasEntreFechas(LocalDateTime inicio, LocalDateTime fin);
-    void añadirFactura(String dniFac);
+    void anadirFactura(String dniFac);
     void recuperaFactura(int codigo);
     void recuperaFacturas(String dniCliente);
     void listaFacturasEntreFechas(LocalDateTime inicio, LocalDateTime fin);

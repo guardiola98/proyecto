@@ -1,7 +1,6 @@
 package main.Vista;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-
 import Excepciones.*;
 import Interfaces.IModelo;
 import Interfaces.IControlador;
@@ -218,8 +217,8 @@ public class Vista implements IVista, Serializable {
 
         // Botón añadir cliente
         JPanel anyadeyborra= new JPanel();
-        TitledBorder añadirYBorrar = new TitledBorder("SELECCIÓN TARIFAS DE UN CLIENTE");
-        añadirYBorrar.setBorder(añadirYBorrar);
+        TitledBorder anadirYBorrar = new TitledBorder("SELECCIÓN TARIFAS DE UN CLIENTE");
+        anadirYBorrar.setBorder(anadirYBorrar);
 
         JButton añadir= new JButton("Añadir");
         añadir.addActionListener(new ActionListener() {
@@ -234,16 +233,16 @@ public class Vista implements IVista, Serializable {
 
                 if(jParticular.isSelected()){
                     try {
-                        controlador.añadirParticular(nombre,apellidos,DNI,new Direccion(provincia,poblacion,cp), LocalDateTime.now());
+                        controlador.anadirParticular(nombre,apellidos,DNI,new Direccion(provincia,poblacion,cp), LocalDateTime.now());
                     } catch (DniNotValidException e1) {
-                        e1.printStackTrace();
+                       JOptionPane.showMessageDialog(null,"El dni no es válido");
                     }
 
                 } else if(jEmpresa.isSelected()){
                     try {
-                        controlador.añadirEmpresa(nombre,DNI,new Direccion(provincia,poblacion,cp), LocalDateTime.now());
+                        controlador.anadirEmpresa(nombre,DNI,new Direccion(provincia,poblacion,cp), LocalDateTime.now());
                     } catch (DniNotValidException e1) {
-                        e1.printStackTrace();
+                        JOptionPane.showMessageDialog(null,"El dni no es válido");
                     }
                 }
                 borrarDatos();
@@ -256,19 +255,13 @@ public class Vista implements IVista, Serializable {
         borrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if(DNI.equals("")){
-                    try {
-                        throw new DNInoSelectedException();
-                    } catch (DNInoSelectedException e) {
-                        e.printStackTrace();
-                    }
-                }else {
+
                     try {
                         controlador.borrarCliente(DNI);
                     } catch (DniNoExixstException e) {
-                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null,"El dni no existe");
                     }
-                }
+
                 borrarDatos();
             }
         });
@@ -285,7 +278,7 @@ public class Vista implements IVista, Serializable {
                 try {
                     controlador.recuperaCliente(DNI);
                 } catch (DniNoExixstException e) {
-                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null,"El dni no existe");
                 }
                 JFrame ventanaRecuperar = new JFrame("Recuperar datos");
                 ventanaRecuperar.getContentPane().add(new JLabel(datosCliente));
@@ -299,7 +292,7 @@ public class Vista implements IVista, Serializable {
                 try {
                     controlador.listarClientes();
                 } catch (DniNoExixstException e) {
-                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null,"El dni no existe");
                 }
                 JFrame ventanaLista = new JFrame("Lista clientes");
                 JList listaDNIS = new JList(dnis);
@@ -388,7 +381,7 @@ public class Vista implements IVista, Serializable {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 DNIFac=jDNIFac.getText();
-                controlador.añadirFactura(DNIFac);
+                controlador.anadirFactura(DNIFac);
                 borrarDatosFactura();
             }
         });
@@ -789,4 +782,6 @@ public class Vista implements IVista, Serializable {
     public void setFacturasEntreFechas(String[] listaFacturasEntreF) {
         facturasEntreFechas=listaFacturasEntreF;
     }
+
+
 }

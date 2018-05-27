@@ -31,7 +31,7 @@ public class Modelo implements IModelo, Serializable {
 
     public Modelo(){
         listaClientes= new LinkedList<Cliente>();
-        fabricaClientes= new FabricaCliente();
+        fabricaClientes=new FabricaCliente();
         fabricaTarifas=new FabricaTarifas();
         vista= new Vista();
     }
@@ -75,7 +75,7 @@ public class Modelo implements IModelo, Serializable {
     }
 
     @Override
-    public void añadeEmpresa(String nombre, String dni, Direccion direccion, LocalDateTime now) throws DniNotValidException {
+    public void anadeEmpresa(String nombre, String dni, Direccion direccion, LocalDateTime now) throws DniNotValidException {
         listaClientes.add(fabricaClientes.getNuevaEmpresa(nombre,fabricaTarifas.getNuevaTarifa(tipo),direccion,dni,now));
     }
 
@@ -167,7 +167,7 @@ public class Modelo implements IModelo, Serializable {
     }
 
     @Override
-    public void añadirFactura(String dniFac) {
+    public void anadirFactura(String dniFac) {
         for(int i=0;i<listaClientes.size();i++) {
             if (listaClientes.get(i).getNIF().equals(dniFac)) {
                 listaClientes.get(i).anadirFactura(codigo, LocalDateTime.now());

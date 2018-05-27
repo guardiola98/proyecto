@@ -13,7 +13,7 @@ public class ClienteTest {
     @Test
     public void setLlamadaTest() throws DniNotValidException,  PhoneNoValidException {
         Tarifa tar= new Basica();
-        Direccion dir=new Direccion("Castellón","Almazora", 12550);
+        Direccion dir=new Direccion("Castellón","Alcora", 12550);
         Cliente c= new Particular("Josep",tar,dir,"Guardiola","53785377A",LocalDateTime.now());
         c.setLlamada(677015090, LocalDateTime.now(),10.5);
 
